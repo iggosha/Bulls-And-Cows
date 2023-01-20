@@ -1,0 +1,17 @@
+# Project exclude paths
+/.gradle/
+/Bulls and Cows/task/build/
+/Bulls and Cows/task/out/
+/Bulls and Cows/task/out/production/classes/
+/Topics/Branching statements/The integer barrier/out/
+/Topics/Branching statements/The integer barrier/out/production/classes/
+/Topics/Branching statements/The sequence/out/
+/Topics/Branching statements/The sequence/out/production/classes/
+/Topics/Integer types and operations/Reversing input numbers/out/
+/Topics/Integer types and operations/Reversing input numbers/out/production/classes/
+/Topics/Printing data/Theory/out/
+/Topics/Printing data/Theory/out/production/classes/
+/Topics/StringBuilder/Concat all strings without digits/out/
+/Topics/StringBuilder/Concat all strings without digits/out/production/classes/
+/Topics/StringBuilder/Love of big letters/out/
+/Topics/StringBuilder/Love of big letters/out/production/classes/
