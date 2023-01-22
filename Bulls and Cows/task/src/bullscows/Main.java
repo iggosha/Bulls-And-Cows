@@ -5,19 +5,24 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
         Scanner read = new Scanner(System.in);
-        System.out.println("Please, enter the secret code's length: ");
+        System.out.println("Please, enter the secret code's length:");
         int lenghtOfCode = read.nextInt();
+        System.out.println("Input the number of possible symbols in the code:");
+        int numOfPossibleSymbols = read.nextInt();
+        List<Character> secretCode = generateSecretCode(lenghtOfCode, numOfPossibleSymbols);
+        System.out.print("The secret is prepared: ");
+        for (int i = 0; i < lenghtOfCode; i++) {
+            System.out.print('*');
+        }
+        System.out.println(" (0-9, a-" + (char) ('a'+numOfPossibleSymbols-11) + ").");
         System.out.println("Okay, let's start a game!");
-        long secretCode = generateRandomNumber(lenghtOfCode);
-        long answerCode = 0;
+        List<Character> answerCode = new ArrayList<>();
         int bullCounter, cowCounter;
-        List<Integer> secretList = divideToDigits((int) secretCode);
-        for (int turnCounter = 0; answerCode != secretCode; turnCounter++) {
+        for (int turnCounter = 0; !answerCode.equals(secretCode); turnCounter++) {
             System.out.println("Turn " + (turnCounter + 1) + ":");
-            answerCode = read.nextInt();
-            List<Integer> answerList = divideToDigits((int) answerCode);
-            bullCounter = countBulls(secretList, answerList);
-            cowCounter = countCows(secretList, answerList);
+            answerCode = inputAnswer();
+            bullCounter = countBulls(secretCode, answerCode);
+            cowCounter = countCows(secretCode, answerCode);
             System.out.print("Grade: ");
             if (bullCounter == 0 && cowCounter == 0) {
                 System.out.println("None");
@@ -34,65 +39,63 @@ public class Main {
         }
 
     }
-    public static List<Integer> divideToDigits(int num) {
-        List<Integer> arr = new ArrayList<>();
-        if (num>0) {
-            while (num > 0) {
-                arr.add(num % 10);
-                num /= 10;
-            }
-        }
-        else {
-            for (int i = 0; i < 10; i++) {
-                arr.add(0);
-            }
 
-        }
-        return arr;
-    }
-    public static int countBulls(List<Integer> firstList, List<Integer> secondList) {
+    public static int countBulls(List<Character> secretCode, List<Character> answerCode) {
         int bullCounter = 0;
-        for (int i = 0; i < firstList.size(); i++) {
-            if (firstList.get(i).equals(secondList.get(i))) {
+        for (int i = 0; i < secretCode.size(); i++) {
+            if (secretCode.get(i).equals(answerCode.get(i))) {
                 bullCounter++;
             }
         }
         return bullCounter;
     }
-    public static int countCows(List<Integer> firstList, List<Integer> secondList) {
+
+    public static int countCows(List<Character> secretCode, List<Character> answerCode) {
         int cowCounter = 0;
-        for (int i = 0; i < firstList.size(); i++) {
-            if (secondList.contains(firstList.get(i)) && !firstList.get(i).equals(secondList.get(i))) {
+        for (int i = 0; i < secretCode.size(); i++) {
+            if (answerCode.contains(secretCode.get(i)) && !secretCode.get(i).equals(answerCode.get(i))) {
                 cowCounter++;
             }
         }
         return cowCounter;
     }
-    public static long generateRandomNumber(int lenghtOfCode){
-        List<Integer> listOfDigits = new ArrayList<>();
-        for (int i = 1; i < 10; i++) {
-            listOfDigits.add(i);
-        }
-        Collections.shuffle(listOfDigits);
-        listOfDigits.add(0);
+
+    public static List<Character> generateSecretCode(int lenghtOfCode, int numOfPossibleSymbols) {
         try {
-            if (lenghtOfCode>10 || lenghtOfCode <1){
+            if (lenghtOfCode < 1 || numOfPossibleSymbols > 36 || numOfPossibleSymbols < 1
+                    || numOfPossibleSymbols < lenghtOfCode) {
                 throw new Exception();
             }
-            long secretCode = listOfDigits.get(0);
-            if (lenghtOfCode>1) {
-                for (int i = 1; i < lenghtOfCode; i++) {
-                    secretCode *= 10;
-                    secretCode += listOfDigits.get(i);
-                }
-            }
-            return secretCode;
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             System.out.println("Error: can't generate a secret number with" +
-                    " a length of " + lenghtOfCode + " because there aren't enough unique digits.");
+                    " a length of " + lenghtOfCode + " and " + numOfPossibleSymbols + " possible symbols");
         }
-        return 0;
+        List<Character> sercetCode = new ArrayList<>();
+        if (numOfPossibleSymbols>10){ // not only numbers
+        for (int i = 0; i < 10; i++) {
+            sercetCode.add((char) (i + '0'));
+        }
+        for (int i = 0; i < numOfPossibleSymbols-10; i++) {
+            sercetCode.add((char) ('a' + i));
+        }}
+        else { // only numbers
+            for (int i = 0; i < numOfPossibleSymbols; i++) {
+                sercetCode.add((char) (i + '0'));
+            }
+        }
+        Collections.shuffle(sercetCode);
+        sercetCode.subList(lenghtOfCode, sercetCode.size()).clear();
+        return sercetCode;
+    }
+
+    public static List<Character> inputAnswer(){
+        Scanner read = new Scanner(System.in);
+        String str = read.nextLine();
+        char[] chars = str.toCharArray();
+        List<Character> answerCode = new ArrayList<>();
+        for (char aChar : chars) {
+            answerCode.add(aChar);
+        }
+        return answerCode;
     }
 }
