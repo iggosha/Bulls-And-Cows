@@ -1,12 +1,13 @@
 package bullscows;
 
 import java.util.*;
-import java.util.stream.Collector;
 
 public class Main {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         Scanner read = new Scanner(System.in);
+        System.out.println("Please, enter the secret code's length: ");
         int lenghtOfCode = read.nextInt();
+        System.out.println("Okay, let's start a game!");
         long secretCode = generateRandomNumber(lenghtOfCode);
         long answerCode = 0;
         int bullCounter, cowCounter;
