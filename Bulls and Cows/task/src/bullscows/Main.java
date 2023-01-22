@@ -5,10 +5,22 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
         Scanner read = new Scanner(System.in);
+        int lenghtOfCode = 0;
         System.out.println("Please, enter the secret code's length:");
-        int lenghtOfCode = read.nextInt();
+        try {
+            lenghtOfCode = read.nextInt();
+        } catch (Exception e){
+            System.out.println("Error: " + e.getMessage());
+            System.exit(0);
+        }
         System.out.println("Input the number of possible symbols in the code:");
-        int numOfPossibleSymbols = read.nextInt();
+        int numOfPossibleSymbols = 0;
+        try {
+            numOfPossibleSymbols = read.nextInt();
+        } catch (Exception e){
+            System.out.println("Error: " + e.getMessage());
+            System.exit(0);
+        }
         List<Character> secretCode = generateSecretCode(lenghtOfCode, numOfPossibleSymbols);
         System.out.print("The secret is prepared: ");
         for (int i = 0; i < lenghtOfCode; i++) {
@@ -69,6 +81,7 @@ public class Main {
         } catch (Exception e) {
             System.out.println("Error: can't generate a secret number with" +
                     " a length of " + lenghtOfCode + " and " + numOfPossibleSymbols + " possible symbols");
+            System.exit(0);
         }
         List<Character> sercetCode = new ArrayList<>();
         if (numOfPossibleSymbols>10){ // not only numbers
